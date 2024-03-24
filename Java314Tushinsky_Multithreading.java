@@ -166,7 +166,7 @@ public class Java314Tushinsky_Multithreading {
                 }
             });
             
-            // заполняем результатами авычисления массив
+            // заполняем результатами вычисления массив
             for(int i = 0; i < resultArray.length; i++) {
                 resultArray[i] = threadList.get(i).getValueArray();
                 System.out.println("resultArray=" + Arrays.toString(resultArray[i]));
@@ -214,6 +214,9 @@ public class Java314Tushinsky_Multithreading {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Java314Tushinsky_Multithreading.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                System.out.println("Количество чётных элементов=" + evenThread.getNumCount());
+                System.out.println("Количество нечётных элементов=" + oddThread.getNumCount());
+                
             } else {
                 // если файл не существует, информируем пользователя
                 System.out.println("Файл по указанному пути не существует! Проверьте правильность ввода.");
@@ -378,7 +381,7 @@ public class Java314Tushinsky_Multithreading {
         private FileOutputStream fos;
         private OutputStreamWriter osw;
         private BufferedWriter writer;
-        
+        private int numCount = 0;
         /**
          * Создаёт поток для чтения и записи чисел в указанный файл
          * @param reader объект для чтения из файла, содержащего данные
@@ -392,6 +395,10 @@ public class Java314Tushinsky_Multithreading {
             this.fileName = fileName;
             this.odded = odded;
             this.delimiter = delimiter;
+        }
+
+        public int getNumCount() {
+            return numCount;
         }
         
         
@@ -430,6 +437,7 @@ public class Java314Tushinsky_Multithreading {
                     if(odded == isOddedNumber(num)) {
                         // проверяем полученное число на заданное условие
                         writeline = writeline.concat(String.valueOf(num)).concat(delimiter);
+                        numCount++;// увеличиваем счётчик элементов, удовлетворяющих условию
                     }
                 }
                 if(writeline.isEmpty()) {
@@ -464,6 +472,7 @@ public class Java314Tushinsky_Multithreading {
                 if(odded == isOddedNumber(num)) {
                     // проверяем полученное число на заданное условие
                     writer.write(readLine.concat("\r\n"));
+                    numCount++;// увеличиваем счётчик элементов, удовлетворяющих условию
                 }
                 // информируем о количестве обработанных строк (частоту можно выбрать произвольно)
                 if((index % 100) == 0) {
